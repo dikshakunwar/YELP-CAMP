@@ -1,14 +1,11 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const campground = require('./models/campground');
+const Campground = require('./models/campground');
 
 const path = require('path');
 
-mongoose.connect('mongodb://localhost:27017/diksha-yelp', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
+mongoose.connect('mongodb://localhost:27017/diksha-yelp')
 
 const db = mongoose.connection;
 db.on('error', (err) => {
@@ -28,7 +25,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/camp', async (req, res) => {
-    const newCamp = new campground({
+    const newCamp = new Campground({
         title: 'my first loc',
         price: 5000,
         description: 'dshbc',
