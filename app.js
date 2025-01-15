@@ -24,15 +24,9 @@ app.get('/', (req, res) => {
     res.render('home')
 })
 
-app.get('/camp', async (req, res) => {
-    const newCamp = new Campground({
-        title: 'my first loc',
-        price: 5000,
-        description: 'dshbc',
-        location: 'haldwani'
-    });
-    await newCamp.save();
-    res.send(newCamp);
+app.get('/campground', async (req, res) => {
+    const camp=await Campground.find({});
+    res.render('campground/index',{camp});
 })
 
 app.listen(3000, () => {
