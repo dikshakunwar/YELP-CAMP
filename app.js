@@ -4,6 +4,9 @@ const mongoose = require('mongoose');
 const Campground = require('./models/campground');
 
 const path = require('path');
+app.use(express.urlencoded({
+    extended: true
+})); //for post req used in forms
 
 mongoose.connect('mongodb://localhost:27017/diksha-yelp')
 
@@ -30,10 +33,22 @@ app.get('/campground', async (req, res) => {
         camp
     });
 })
+//adding form
+app.get('/campground/new', (req, res) => {
+    res.render('campground/new')
+})
+
+app.post('/campground', async (req, res) => {
+    const campground = new Campground(req.body.campground)
+    await campground.save();
+    res.redirect(`/campground/${campground._id}`);
+})
 
 app.get('/campground/:id', async (req, res) => {
-    const c= await Campground.findById(req.params.id);
-    res.render('campground/show',{c})
+    const c = await Campground.findById(req.params.id);
+    res.render('campground/show', {
+        c
+    })
 })
 
 app.listen(3000, () => {
